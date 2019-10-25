@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+    <persistence-unit name="sv.org.mined_emergencia-model_jar_1.0PU" transaction-type="JTA">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <jta-data-source>java:/EmergenciaDS</jta-data-source>
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <class>sv.org.mined.emergencia.model.EmerRegDanio</class>
+        <class>sv.org.mined.emergencia.model.EmerObservaciones</class>
+        <class>sv.org.mined.emergencia.model.EmerInventario</class>
+        <class>sv.org.mined.emergencia.model.EmerTipAulas</class>
+        <class>sv.org.mined.emergencia.model.EmerInvDonacion</class>
+        <class>sv.org.mined.emergencia.model.EmerPeligroAlb</class>
+        <class>sv.org.mined.emergencia.model.EmerRegistroAlbergue</class>
+        <class>sv.org.mined.emergencia.model.EmerMinedPer</class>
+        <class>sv.org.mined.emergencia.model.EmerComitePlan</class>
+        <class>sv.org.mined.emergencia.model.ZonaGeografica</class>
+        <class>sv.org.mined.emergencia.model.EmerBitacora</class>
+        <class>sv.org.mined.emergencia.model.EmerIntervencion</class>
+        <class>sv.org.mined.emergencia.model.EmerEstadoAlbergue</class>
+        <class>sv.org.mined.emergencia.model.EmerResMined</class>
+        <class>sv.org.mined.emergencia.model.EmerOrgInternaAlb</class>
+        <class>sv.org.mined.emergencia.model.EmerTipRanEdad</class>
+        <class>sv.org.mined.emergencia.model.EmerRuta</class>
+        <class>sv.org.mined.emergencia.model.EmerDonacion</class>
+        <class>sv.org.mined.emergencia.model.EmerEscCercanas</class>
+        <class>sv.org.mined.emergencia.model.EmerPerFirma</class>
+        <class>sv.org.mined.emergencia.model.EmerCapAlbergue</class>
+        <class>sv.org.mined.emergencia.model.EmerTipDanio</class>
+        <class>sv.org.mined.emergencia.model.EmerTipoEmergencia</class>
+        <class>sv.org.mined.emergencia.model.EmerTiposResponble</class>
+        <class>sv.org.mined.emergencia.model.EmerLugProcedencia</class>
+        <class>sv.org.mined.emergencia.model.EmerSerAlbergue</class>
+        <class>sv.org.mined.emergencia.model.EmerSerBasicosAlb</class>
+        <class>sv.org.mined.emergencia.model.EmerPartePreventiva</class>
+        <class>sv.org.mined.emergencia.model.EmerOtrasEmergencias</class>
+        <class>sv.org.mined.emergencia.model.EmerPerRangoEdad</class>
+        <class>sv.org.mined.emergencia.model.EmerOrgApoyo</class>
+        <properties/>
+    </persistence-unit>
+</persistence>

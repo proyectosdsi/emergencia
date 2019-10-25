@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <h:form id="frm">
+            <p:panelGrid id="pngDatos" columns="2">
+                <p:outputLabel value="ID"/>
+                <p:inputText value="#{donacionMB.tipoEmergencia.codigoEmergencia}" readonly="true"/>
+                <p:outputLabel value="Nombre:"/>
+                <p:inputText value="#{donacionMB.tipoEmergencia.nombreEmergencia}"/>
+                <p:outputLabel value="Fecha:"/>
+                <p:calendar pattern="dd/MM/yyyy" value="#{donacionMB.tipoEmergencia.fecEmergencia}"/>
+            </p:panelGrid>
+            
+            <p:panel header="Donación">
+                <p:dataTable value="#{donacionMB.lstTipoEmergencia}" var="tipo" selectionMode="single" 
+                             selection="#{donacionMB.tipoEmergencia}" rowKey="#{tipo.codigoEmergencia}">
+                    <p:ajax event="rowSelect" update="frm:pngDatos"/>
+                    <p:column headerText="ID">
+                        #{tipo.codigoEmergencia}
+                    </p:column>
+                    <p:column headerText="Nombre">
+                        <p:outputLabel value="#{tipo.nombreEmergencia}"/>
+                    </p:column>
+                    <p:column>
+                        <p:outputLabel value="#{tipo.fecEmergencia}">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </p:outputLabel>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+    </h:body>
+</html>
+
