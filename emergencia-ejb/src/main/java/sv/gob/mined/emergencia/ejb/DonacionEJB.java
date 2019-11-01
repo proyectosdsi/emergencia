@@ -5,6 +5,7 @@
  */
 package sv.gob.mined.emergencia.ejb;
 
+import java.util.HashMap;
 import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -13,6 +14,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import sv.gob.mined.emergencia.model.EmerDonacion;
 import sv.gob.mined.emergencia.model.EmerTipoEmergencia;
+import sv.gob.mined.emergencia.util.Parametros;
 
 /**
  *
@@ -47,10 +49,37 @@ public class DonacionEJB {
 
         return (EmerDonacion) q.getSingleResult();
     }
-    
-    
-    public List<EmerTipoEmergencia> getListadoTipoEmergencia(){
+
+    public List<EmerTipoEmergencia> getListadoTipoEmergencia() {
         Query q = em.createQuery("SELECT t FROM EmerTipoEmergencia t", EmerTipoEmergencia.class);
         return q.getResultList();
+    }
+
+    public HashMap<String, String> guardar(EmerTipoEmergencia tipoEmergencia) {
+        HashMap<String, String> param = new HashMap();
+
+        //String msj = "";
+        try {
+            Query q = em.createQuery("SELECT e FROM EmerTipoEmergencia e wHERE e.nombreEmergencia=:nomEmergencia", EmerTipoEmergencia.class);
+            q.setParameter("nomEmergencia", tipoEmergencia.getNombreEmergencia());
+
+            if (q.getResultList().isEmpty()) {
+                if (tipoEmergencia.getCodigoEmergencia() == null) {
+                    em.persist(tipoEmergencia);
+                    param.put(Parametros.MSJ_INFO, "Se ha creado la emergencia con nombre: " + tipoEmergencia.getNombreEmergencia());
+                }
+            } else {
+                if (tipoEmergencia.getCodigoEmergencia() == null) {
+                    param.put(Parametros.MSJ_ERROR, "No se puede crear la emergencia");
+                } else {
+                    em.merge(tipoEmergencia);
+                    param.put(Parametros.MSJ_INFO, "Se ha actualizado la emergencia seleccionada.");
+                }
+            }
+        } catch (Exception e) {
+            param.put(Parametros.MSJ_ERROR, "Ah ocurrido un error en el proceso de regristro");
+        }
+
+        return param;
     }
 }
