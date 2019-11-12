@@ -68,6 +68,7 @@ public class DonacionMB implements Serializable {
         if (param.containsKey(Parametros.MSJ_INFO)) {
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informarción", param.get(Parametros.MSJ_INFO)));
+            lstTipoEmergencia = donacionEJB.getListadoTipoEmergencia();
         }
         if (param.containsKey(Parametros.MSJ_ERROR)) {
             FacesContext context = FacesContext.getCurrentInstance();

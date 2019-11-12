@@ -39,14 +39,14 @@
                 <p:spacer/>
                 
                 <f:facet name="footer">
-                    <p:commandButton value="Guardar" action="#{donacionMB.guardar}" update="pngDatos"/>      
+                    <p:commandButton value="Guardar" action="#{donacionMB.guardar}" update="pngDatos tblDatos"/>      
                 </f:facet>
             </h:panelGrid>
 
 
             <br/>
             <p:panel header="Donación">
-                <p:dataTable value="#{donacionMB.lstTipoEmergencia}" var="tipo" selectionMode="single" 
+                <p:dataTable id="tblDatos" value="#{donacionMB.lstTipoEmergencia}" var="tipo" selectionMode="single" 
                              selection="#{donacionMB.tipoEmergencia}" rowKey="#{tipo.codigoEmergencia}">
                     <p:ajax event="rowSelect" update="frm:pngDatos"/>
                     <p:column headerText="ID">
@@ -54,6 +54,9 @@
                     </p:column>
                     <p:column headerText="Nombre">
                         <p:outputLabel value="#{tipo.nombreEmergencia}"/>
+                    </p:column>
+                    <p:column headerText="Observación">
+                        <p:outputLabel value="#{tipo.observacionEmergencia}"/>
                     </p:column>
                     <p:column>
                         <p:outputLabel value="#{tipo.fecEmergencia}">
