@@ -1,0 +1,11 @@
+body {
+    font-size: 13px !important;
+}
+
+input, textarea { 
+    text-transform: uppercase;
+};
+
+.colTextCenter{
+    text-align: center;
+}

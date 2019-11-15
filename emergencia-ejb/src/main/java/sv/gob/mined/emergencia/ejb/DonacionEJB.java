@@ -7,7 +7,11 @@ package sv.gob.mined.emergencia.ejb;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import javax.ejb.AccessTimeout;
 import javax.ejb.LocalBean;
+import javax.ejb.Lock;
+import javax.ejb.LockType;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -22,6 +26,7 @@ import sv.gob.mined.emergencia.util.Parametros;
  */
 @Stateless
 @LocalBean
+@AccessTimeout(unit = TimeUnit.MILLISECONDS, value = 8000)
 public class DonacionEJB {
 
     @PersistenceContext
@@ -51,7 +56,7 @@ public class DonacionEJB {
     }
 
     public List<EmerTipoEmergencia> getListadoTipoEmergencia() {
-        Query q = em.createQuery("SELECT t FROM EmerTipoEmergencia t", EmerTipoEmergencia.class);
+        Query q = em.createQuery("SELECT t FROM EmerTipoEmergencia t ORDER BY t.codigoEmergencia", EmerTipoEmergencia.class);
         return q.getResultList();
     }
 
@@ -81,5 +86,37 @@ public class DonacionEJB {
         }
 
         return param;
+    }
+
+    @Lock(LockType.WRITE)
+    public void eliminar(Integer codigoEmergencia) {
+        /*
+        EmerTipoEmergencia emer = em.find(EmerTipoEmergencia.class, codigoEmergencia);
+        em.detach(emer);
+         */
+
+        //forma de poner en cola las peticiones realizadas a este bloque de codigo
+        //synchronized (this) {
+        
+        Query q = em.createQuery("DELETE FROM EmerTipoEmergencia e WHERE e.codigoEmergencia=:codEmer");
+        q.setParameter("codEmer", codigoEmergencia);
+        
+        /*Query q = em.createNativeQuery("DELETE FROM Emer_Tipo_Emergencia WHERE codigo_Emergencia=?1");
+        q.setParameter(1, codigoEmergencia);*/
+
+        q.executeUpdate();
+        //}
+    }
+    
+    public void eliminacionMultiple(List<EmerTipoEmergencia> lstEliminar){
+        for (EmerTipoEmergencia emer : lstEliminar) {
+            eliminar(emer.getCodigoEmergencia());
+        }
+        
+        /* el arreglo debe de ser del tipo de dato del where
+        Query q = em.createQuery("DELETE FROM EmerTipoEmergencia e WHERE e.codigoEmergencia in :codigos");
+        q.setParameter("codigos", lstEliminar);
+        */
+        
     }
 }
