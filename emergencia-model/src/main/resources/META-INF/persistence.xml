@@ -3,7 +3,6 @@
     <persistence-unit name="emergenciaPU" transaction-type="JTA">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
         <jta-data-source>java:/EmergenciaDS</jta-data-source>
-        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
         <class>sv.gob.mined.emergencia.model.EmerRegDanio</class>
         <class>sv.gob.mined.emergencia.model.EmerObservaciones</class>
         <class>sv.gob.mined.emergencia.model.EmerInventario</class>
