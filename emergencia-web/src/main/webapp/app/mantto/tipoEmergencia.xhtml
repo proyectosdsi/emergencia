@@ -1,0 +1,93 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/resources/template/plantilla.xhtml">
+
+    <ui:define name="content">
+        <h:form id="frm" prependId="false">
+            <p:growl id="growl" showDetail="true" sticky="true" >
+                <p:autoUpdate/>
+            </p:growl>
+
+            <p:panel header="Donación">
+                <p:dataTable id="tblDatos" value="#{donacionMB.lstTipoEmergencia}" var="tipo" selectionMode="single" 
+                             selection="#{donacionMB.tipoEmergencia}" 
+                             rowKey="#{tipo.codigoEmergencia}"
+                             scrollable="true" scrollHeight="200">
+
+                    <f:facet name="header">
+
+                        <p:commandButton value="Eliminar" action="#{donacionMB.eliminacionMultiple}" process="@this" update="tblDatos">
+                            <p:confirm header="Confirmar" message="Esta seguro de eliminar los registros seleccionados?" icon="fa fa-exclamation-triangle" />
+                        </p:commandButton>
+                    </f:facet>
+
+                    <p:ajax event="rowSelect" update="pngDatos"/>
+
+                    <p:column headerText="ID" width="20" style="text-align: center;">
+                        #{tipo.codigoEmergencia}
+                    </p:column>
+                    <p:column headerText="Nombre" >
+                        <p:outputLabel value="#{tipo.nombreEmergencia}"/>
+                    </p:column>
+                    <p:column headerText="Observación" >
+                        <p:outputLabel value="#{tipo.observacionEmergencia}"/>
+                    </p:column>
+                    <p:column style="text-align: center;" width="70">
+                        <p:outputLabel value="#{tipo.fecEmergencia}">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </p:outputLabel>
+                    </p:column>
+
+                    <p:column headerText="Eliminar" width="50" style="text-align: center;">
+                        <p:commandButton icon="fa fa-trash" process="@this" action="#{donacionMB.eliminar(tipo.codigoEmergencia)}" />
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+
+            <br/>
+
+            <p:panel header="Datos">
+                <h:panelGrid id="pngDatos" columns="3" cellpadding="5">
+                    <p:outputLabel value="ID"/>
+                    <p:inputText value="#{donacionMB.tipoEmergencia.codigoEmergencia}" readonly="true"/>
+                    <p:spacer/>
+
+                    <p:outputLabel value="Nombre:" for="txtNombre"/>
+                    <p:inputText id="txtNombre" value="#{donacionMB.tipoEmergencia.nombreEmergencia}" required="true" requiredMessage="El nombre de la emergencia es requerido"
+                                 label="Nombre" />
+                    <p:message for="txtNombre" />
+
+
+                    <p:outputLabel value="Fecha:"/>
+                    <p:calendar pattern="dd/MM/yyyy" value="#{donacionMB.tipoEmergencia.fecEmergencia}"/>
+                    <p:spacer/>
+
+
+                    <p:outputLabel for="txaObservacion" value="Observación:"/>
+                    <p:inputTextarea id="txaObservacion" value="#{donacionMB.tipoEmergencia.observacionEmergencia}" required="true"/>
+                    <p:message for="txaObservacion"/>
+
+                    <p:outputLabel value="Activo"/>
+                    <p:toggleSwitch value="#{donacionMB.tipoEmergencia.emerActiva}" />
+                    <p:spacer/>
+                </h:panelGrid>
+
+                <f:facet name="footer">
+                    <p:commandButton id="btnGuardar" icon="fa fa-floppy-o" value="Guardar" action="#{donacionMB.guardar}" update="pngDatos tblDatos"/>
+                    <p:commandButton id="btnNuevo" icon="fa fa-file-o" value="Nuevo" action="#{donacionMB.nuevo}" update="pngDatos tblDatos"/>
+                    <p:commandButton id="btnEliminar" process="@this" icon="fa fa-trash" value="Eliminar" action="#{donacionMB.eliminar}" update="pngDatos tblDatos"/>
+                </f:facet>
+            </p:panel>
+
+
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-times" />
+            </p:confirmDialog>  
+
+        </h:form>
+    </ui:define>
+</ui:composition>

@@ -85,6 +85,7 @@ public class DonacionMB implements Serializable {
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", param.get(Parametros.MSJ_ERROR)));
         }
 
+        nuevo();
     }
 
     public void nuevo() {
