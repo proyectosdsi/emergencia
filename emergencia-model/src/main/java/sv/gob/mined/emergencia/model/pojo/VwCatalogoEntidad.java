@@ -27,8 +27,18 @@ public class VwCatalogoEntidad implements Serializable {
     private BigDecimal idRow;
     private String codigoEntidad;
     private String nombre;
+    private String direccion;
     private String codigoDepartamento;
     private String codigoMunicipio;
+    private String nombreDepartamento;
+    private String nombreMunicipio;
+    private String codigoModalidadAdmin;
+    private String inicialesModalidad;
+    private String codigoTipoEntidad;
+    private String entNombre;
+    private String telefono1;
+    private String codigoZona;
+    private String zonaNombre;
 
     public BigDecimal getIdRow() {
         return idRow;
@@ -68,6 +78,86 @@ public class VwCatalogoEntidad implements Serializable {
 
     public void setCodigoMunicipio(String codigoMunicipio) {
         this.codigoMunicipio = codigoMunicipio;
+    }
+
+    public String getNombreDepartamento() {
+        return nombreDepartamento;
+    }
+
+    public void setNombreDepartamento(String nombreDepartamento) {
+        this.nombreDepartamento = nombreDepartamento;
+    }
+
+    public String getNombreMunicipio() {
+        return nombreMunicipio;
+    }
+
+    public void setNombreMunicipio(String nombreMunicipio) {
+        this.nombreMunicipio = nombreMunicipio;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public String getCodigoModalidadAdmin() {
+        return codigoModalidadAdmin;
+    }
+
+    public void setCodigoModalidadAdmin(String codigoModalidadAdmin) {
+        this.codigoModalidadAdmin = codigoModalidadAdmin;
+    }
+
+    public String getInicialesModalidad() {
+        return inicialesModalidad;
+    }
+
+    public void setInicialesModalidad(String inicialesModalidad) {
+        this.inicialesModalidad = inicialesModalidad;
+    }
+
+    public String getCodigoTipoEntidad() {
+        return codigoTipoEntidad;
+    }
+
+    public void setCodigoTipoEntidad(String codigoTipoEntidad) {
+        this.codigoTipoEntidad = codigoTipoEntidad;
+    }
+
+    public String getEntNombre() {
+        return entNombre;
+    }
+
+    public void setEntNombre(String entNombre) {
+        this.entNombre = entNombre;
+    }
+
+    public String getTelefono1() {
+        return telefono1;
+    }
+
+    public void setTelefono1(String telefono1) {
+        this.telefono1 = telefono1;
+    }
+
+    public String getCodigoZona() {
+        return codigoZona;
+    }
+
+    public void setCodigoZona(String codigoZona) {
+        this.codigoZona = codigoZona;
+    }
+
+    public String getZonaNombre() {
+        return zonaNombre;
+    }
+
+    public void setZonaNombre(String zonaNombre) {
+        this.zonaNombre = zonaNombre;
     }
 
     @Override

@@ -15,8 +15,18 @@
                 id_row as idRow,
                 codigo_entidad as codigoEntidad,
                 nombre,
+                direccion,
+                telefono1,
                 codigo_departamento as codigoDepartamento,
-                codigo_municipio as codigoMunicipio
+                codigo_municipio as codigoMunicipio,
+                nombre_departamento as nombreDepartamento,
+                nombre_municipio as nombreMunicipio,
+                codigo_modalidad_admin as codigoModalidadAdmin,
+                iniciales_modalidad as inicialesModalidad,
+                codigo_tipo_entidad as codigoTipoEntidad,
+                ent_nombre as entNombre,
+                codigo_zona as codigoZona,
+                zona_nombre as zonaNombre                
             FROM vw_catalogo_entidad
             WHERE codigo_entidad = ?1
             ]]>

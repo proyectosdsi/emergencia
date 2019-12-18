@@ -11,14 +11,18 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 /**
  *
@@ -34,6 +38,8 @@ public class EmerIntervencion implements Serializable {
     @Id
     @Basic(optional = false)
     @Column(name = "ID_INTERVENCION")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqIntervencion")
+    @SequenceGenerator(name = "seqIntervencion", sequenceName = "SEQ_INTERVENCION", allocationSize = 1, initialValue = 1)
     private Integer idIntervencion;
     @Column(name = "TIPO_INTERVENCION")
     private String tipoIntervencion;
@@ -43,20 +49,61 @@ public class EmerIntervencion implements Serializable {
     @Column(name = "DESCRIPCION_INTERVENCION")
     private String descripcionIntervencion;
     @Column(name = "ESTADO_INTERVENCION")
-    private Character estadoIntervencion;
+    private Character estadoIntervencion = '0';
     @Column(name = "INT_PSICOLOGICA")
-    private Character intPsicologica;
+    private Character intPsicologica = '0';
     @Column(name = "INT_PEDAGOGICA")
-    private Character intPedagogica;
+    private Character intPedagogica = '0';
     @Column(name = "INT_RECONSTRUCCION")
-    private Character intReconstruccion;
+    private Character intReconstruccion = '0';
     @Column(name = "OBSERVACION")
     private String observacion;
     @JoinColumn(name = "CORRELATIVO_REGISTRO", referencedColumnName = "CORRELATIVO_REGISTRO")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private EmerRegistroAlbergue correlativoRegistro;
 
+    @Transient
+    private Boolean estado;
+    @Transient
+    private Boolean psicologia;
+    @Transient
+    private Boolean pedadogica;
+    @Transient
+    private Boolean reconstruccion;
+
     public EmerIntervencion() {
+    }
+
+    public Boolean getEstado() {
+        return (estadoIntervencion.equals('1'));
+    }
+
+    public void setEstado(Boolean estado) {
+        estadoIntervencion = estado ? '1' : '0';
+    }
+
+    public Boolean getPsicologia() {
+        return intPsicologica.equals('1');
+    }
+
+    public void setPsicologia(Boolean psicologia) {
+        intPsicologica = psicologia ? '1' : '0';
+    }
+
+    public Boolean getPedadogica() {
+        return intPedagogica.equals('1');
+    }
+
+    public void setPedadogica(Boolean pedadogica) {
+        intPedagogica = pedadogica ? '1' : '0';
+    }
+
+    public Boolean getReconstruccion() {
+        return (intReconstruccion.equals('1'));
+    }
+
+    public void setReconstruccion(Boolean reconstruccion) {
+        intReconstruccion = reconstruccion ? '1' : '0';
     }
 
     public EmerIntervencion(Integer idIntervencion) {
@@ -167,5 +214,5 @@ public class EmerIntervencion implements Serializable {
     public String toString() {
         return "sv.org.mined.emergencia.model.EmerIntervencion[ idIntervencion=" + idIntervencion + " ]";
     }
-    
+
 }

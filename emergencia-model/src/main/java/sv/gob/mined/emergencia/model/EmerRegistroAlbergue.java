@@ -7,6 +7,7 @@ package sv.gob.mined.emergencia.model;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -14,15 +15,19 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 /**
  *
@@ -38,6 +43,8 @@ public class EmerRegistroAlbergue implements Serializable {
     @Id
     @Basic(optional = false)
     @Column(name = "CORRELATIVO_REGISTRO")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqAlbergue")
+    @SequenceGenerator(name = "seqAlbergue", sequenceName = "SEQ_EMER_ALBERGUE", allocationSize = 1, initialValue = 1)
     private Integer correlativoRegistro;
     @Basic(optional = false)
     @Column(name = "CODIGO_ENTIDAD")
@@ -73,7 +80,7 @@ public class EmerRegistroAlbergue implements Serializable {
     @Column(name = "AULAS_MAL_ESTADO")
     private BigInteger aulasMalEstado;
     @Column(name = "POSEE_INTERNA")
-    private Character poseeInterna;
+    private Character poseeInterna = '0';
     @Column(name = "HALLAZGOS_IMPORTANTES")
     private String hallazgosImportantes;
     @Column(name = "RUTA_REALIZADA")
@@ -99,13 +106,13 @@ public class EmerRegistroAlbergue implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaModi;
     @Column(name = "ESTADO_ALBERGUE")
-    private Character estadoAlbergue;
+    private Character estadoAlbergue = '0';
     @Column(name = "NUMERO_FAMILIAS")
     private Short numeroFamilias;
     @Column(name = "RECIBIO_AYUDA")
-    private Character recibioAyuda;
+    private Character recibioAyuda = '0';
     @Column(name = "INFORMACION")
-    private Character informacion;
+    private Character informacion = '0';
     @Column(name = "FECHA_CIERRE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaCierre;
@@ -114,7 +121,7 @@ public class EmerRegistroAlbergue implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "correlativoRegistro", fetch = FetchType.LAZY)
     private List<EmerSerAlbergue> emerSerAlbergueList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "correlativoRegistro", fetch = FetchType.LAZY)
-    private List<EmerIntervencion> emerIntervencionList;
+    private List<EmerIntervencion> emerIntervencionList = new ArrayList<>();
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "correlativoRegistro", fetch = FetchType.LAZY)
     private List<EmerEscCercanas> emerEscCercanasList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "correlativoRegistro", fetch = FetchType.LAZY)
@@ -158,8 +165,38 @@ public class EmerRegistroAlbergue implements Serializable {
     private List<EmerResMined> emerResMinedList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "correlativoRegistro", fetch = FetchType.LAZY)
     private List<EmerCapAlbergue> emerCapAlbergueList;
+    
+    @Column(name = "SEGUIMIENTO")
+    private Character seguimiento;
+
+    @Transient
+    private Boolean emerAyuda;
+    @Transient
+    private Boolean estado;
+    @Transient
+    private Boolean psicologia;
+    @Transient
+    private Boolean pedadogica;
+    @Transient
+    private Boolean reconstruccion;
 
     public EmerRegistroAlbergue() {
+    }
+
+    public Character getSeguimiento() {
+        return seguimiento;
+    }
+
+    public void setSeguimiento(Character seguimiento) {
+        this.seguimiento = seguimiento;
+    }
+
+    public Boolean getEmerAyuda() {
+        return (recibioAyuda.equals('1'));
+    }
+
+    public void setEmerAyuda(Boolean emerAyuda) {
+        recibioAyuda = (emerAyuda ? '1' : '0');
     }
 
     public EmerRegistroAlbergue(Integer correlativoRegistro) {
@@ -635,5 +672,5 @@ public class EmerRegistroAlbergue implements Serializable {
     public String toString() {
         return "sv.org.mined.emergencia.model.EmerRegistroAlbergue[ correlativoRegistro=" + correlativoRegistro + " ]";
     }
-    
+
 }
