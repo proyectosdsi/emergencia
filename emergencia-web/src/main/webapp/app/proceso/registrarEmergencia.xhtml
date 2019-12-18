@@ -7,33 +7,134 @@
 
     <ui:define name="content">
         <h:form prependId="false"> 
-            
+
             <p:growl id="growl" showDetail="true" sticky="true" >
                 <p:autoUpdate/>
             </p:growl>
-            
-            <p:panel header="Generalidades">
-                <h:panelGrid columns="2">
-                    <p:outputLabel value="Emergencia"/>
-                    <p:outputPanel>
-                        <p:inputText id="txtEmergencia" disabled="true" value="#{registroEmergenciaMB.emergenciaSeleccionada.nombreEmergencia}"/>
-                        <p:commandButton value="..." onclick="PF('dlgEmergencia').show();" update="tblDatos"/>
-                    </p:outputPanel>
-                    <p:outputLabel value="Estado Albergue"/>
-                    <p:selectOneMenu value="#{registroEmergenciaMB.estadoAlbergue}">
-                        <f:selectItems value="#{registroEmergenciaMB.lstEstadoAlbergue}" var="estado" itemValue="#{estado.codigoEstado}" itemLabel="#{estado.nombreEstado}"/>
-                    </p:selectOneMenu>
-                    
-                    <p:outputLabel value="Código C.E."/>
-                    <p:outputPanel>
-                        <p:inputText value="#{registroEmergenciaMB.codigoEntidad}" size="5" onkeyup="return this.value.length >= 5">
-                            <p:ajax event="keyup" listener="#{registroEmergenciaMB.buscarEntidad()}" update="lblNombre lblCopDe" />
-                        </p:inputText>
-                        <p:outputLabel id="lblNombre" value="#{registroEmergenciaMB.vwCatalogoEntidad.nombre}"/>
-                        <p:outputLabel id="lblCopDe" value="#{registroEmergenciaMB.vwCatalogoEntidad.codigoDepartamento}"/>
-                    </p:outputPanel>
-                </h:panelGrid>
-            </p:panel>
+
+            <p:commandButton value="Guardar" action="#{registroEmergenciaMB.guardar()}"/>
+            <p:tabView id="tbView">
+                <p:tab title="Generalidades Emengencia">
+                    <h:panelGrid columns="4" columnClasses="ui-g-2,ui-g-4,ui-g-2,ui-g-4" style="width: 100%">
+                        <p:outputLabel value="Emergencia: "/>
+                        <p:outputPanel>
+                            <p:inputText id="txtEmergencia" disabled="true" value="#{registroEmergenciaMB.emergenciaSeleccionada.nombreEmergencia}" size="40" style="background: black"/>
+                            <p:commandButton value="..." onclick="PF('dlgEmergencia').show();" update="tblDatos"/>
+                        </p:outputPanel>
+                        <p:outputLabel value="Estado Registro: "/>
+                        <p:selectOneMenu value="#{registroEmergenciaMB.estadoAlbergue}">
+                            <f:selectItems value="#{registroEmergenciaMB.lstEstadoAlbergue}" var="estado" itemValue="#{estado.codigoEstado}" itemLabel="#{estado.nombreEstado}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Tipo De Registro: "/>
+                        <p:selectOneMenu id="ldsInformacion" value="#{registroEmergenciaMB.emerRegistroAlbergue.informacion}" style="width: 125px" required="true">
+                            <f:selectItem itemLabel="-Seleccione-" itemValue="0"/>
+                            <f:selectItem itemLabel="ALBERGUE" itemValue="1"/>
+                            <f:selectItem itemLabel="DAÑO C.E" itemValue="2"/>                        
+                            <f:facet name="ddlInformacion">
+                                <h:outputText value="4" style="font-weight: bold;"/>
+                            </f:facet>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Código C.E." />
+                        <p:outputPanel>
+                            <p:inputText value="#{registroEmergenciaMB.codigoEntidad}" size="5" onkeyup="return this.value.length >= 5" >
+                                <p:ajax event="keyup" listener="#{registroEmergenciaMB.buscarEntidad()}" update="lblNombre lblCopDe lblCopMun lblDirrecion lblModalidad lblTipEntidad lblZona" />
+                            </p:inputText>              
+                        </p:outputPanel>
+                        <p:outputLabel value="Nombre C.E: "/>
+                        <p:inputText id="lblNombre" disabled="true" value="#{registroEmergenciaMB.vwCatalogoEntidad.nombre}" size="50"/>
+
+                        <p:outputLabel value="Departamento :"/>
+                        <p:inputText id="lblCopDe" disabled="true" value="#{registroEmergenciaMB.vwCatalogoEntidad.nombreDepartamento}" size="15"/>
+
+                        <p:outputLabel value="Municipio :"/>
+                        <p:inputText id="lblCopMun" disabled="true" value="#{registroEmergenciaMB.vwCatalogoEntidad.nombreMunicipio}" size="20"/>                                                                                                                                                         
+
+                        <p:outputLabel value="Dirección :"/>
+                        <p:inputText id="lblDirrecion" disabled="true" value="#{registroEmergenciaMB.vwCatalogoEntidad.direccion}" size="50"/>
+
+                        <p:outputLabel value="Modalidad :"/>
+                        <p:inputText id="lblModalidad" disabled="true" value="#{registroEmergenciaMB.vwCatalogoEntidad.inicialesModalidad}" size="5"/> 
+
+                        <p:outputLabel value="Tipo Entidad :"/>
+                        <p:inputText id="lblTipEntidad" disabled="true" value="#{registroEmergenciaMB.vwCatalogoEntidad.entNombre}" size="7"/>
+
+                        <p:outputLabel value="Telefono: "/>
+                        <p:inputMask id="lblTelefono" disabled="true" value="#{registroEmergenciaMB.vwCatalogoEntidad.telefono1}" size="9" mask="9999-9999"/>
+
+                        <p:outputLabel value="Zona: "/>
+                        <p:inputText id="lblZona" disabled="true"  value="#{registroEmergenciaMB.vwCatalogoEntidad.zonaNombre}" size="9"/>
+
+                        <p:outputLabel value="Responsable Albergue: "/>
+                        <p:inputText  id="lblReponsableAlber" value="#{registroEmergenciaMB.emerRegistroAlbergue.responsableAlbergue}" size="40"/>
+
+                        <p:outputLabel value="Tel. Responsable (A/D): "/>
+                        <p:inputMask id="lblTelResposable" value="#{registroEmergenciaMB.emerRegistroAlbergue.telResposAlbergue}" size="9" mask="9999-9999"/>
+
+                        <p:outputLabel value="Responsable de Visita: "/>
+                        <p:inputText  id="lblReponsableVisita" value="#{registroEmergenciaMB.emerRegistroAlbergue.responsableVisita}" size="40"/>
+
+                        <p:outputLabel value="Cantón: "/>
+                        <p:inputText  id="lblCanton" value="#{registroEmergenciaMB.emerRegistroAlbergue.canton}" size="20"/>
+
+                        <p:outputLabel value="Caserio: "/>
+                        <p:inputText  id="lblCaserio" value="#{registroEmergenciaMB.emerRegistroAlbergue.caserio}" size="25"/>
+
+                        <p:outputLabel value="Fecha Inicio Albergue: "/>
+                        <p:calendar  id="lclFechainicio" pattern="dd/MM/yyyy" value="#{registroEmergenciaMB.emerRegistroAlbergue.feciniAlbergue}" size="10" showOn="button" navigator="true" locale="de"/>
+
+                        <p:outputLabel value="Fecha Del Reguistro: "/>
+                        <p:calendar  id="lclFechaReguistro" pattern="dd/MM/yyyy" value="#{registroEmergenciaMB.emerRegistroAlbergue.fecregEmergencia}" size="10" showOn="button" navigator="true" locale="de"/>
+
+                        <p:outputLabel value="Recibio Ayuda: "/>
+                        <p:toggleSwitch  id="tslAyuda" value="#{registroEmergenciaMB.emerRegistroAlbergue.emerAyuda}"/>
+
+                        <p:outputLabel value="Numero de Familias:"/>
+                        <p:inputText  id="lblNomFamilia" value="#{registroEmergenciaMB.emerRegistroAlbergue.numeroFamilias}" size="5"/>
+
+                        <p:outputLabel value="Tel. Reporntan (A/D): "/>
+                        <p:inputMask id="lblTelReportan" value="#{registroEmergenciaMB.emerRegistroAlbergue.telReportado}" size="9" mask="9999-9999"/>
+
+                        <p:outputLabel value="Seguimiento: "/>
+                        <p:selectOneMenu id="ldsSeguimiento" value="#{registroEmergenciaMB.emerRegistroAlbergue.seguimiento}" style="width: 125px" required="true" >
+                            <f:selectItem itemLabel="-Seleccione-" itemValue="0"/>
+                            <f:selectItem itemLabel="EN SEGUIMIENTO" itemValue="1"/>
+                            <f:selectItem itemLabel="TELEFONIA" itemValue="2"/>
+                            <f:selectItem itemLabel="VISITA" itemValue="3"/>
+                            <f:selectItem itemLabel="E-MAIL" itemValue="4"/>
+                            <f:facet name="ddlSeguimiento">
+                                <h:outputText value="4" style="font-weight: bold;"/>
+                            </f:facet>
+                        </p:selectOneMenu>             
+                    </h:panelGrid>
+                </p:tab>
+                <p:tab title="Acciones preventivas">
+                    <h:panelGrid columns="4" columnClasses="ui-g-2,ui-g-4,ui-g-2,ui-g-4" style="width: 100%">
+                        <p:outputLabel value="Tipo ontervencion"/>
+                        <p:inputText value="#{registroEmergenciaMB.emerIntervencion.tipoIntervencion}"/>
+                        <p:outputLabel value="Fecha"/>
+                        <p:calendar value="#{registroEmergenciaMB.emerIntervencion.fechaIntervencion}" pattern="dd/mm/yyyy"/>
+                        <p:outputLabel value="Descripcion"/>
+                        <p:inputTextarea value="#{registroEmergenciaMB.emerIntervencion.descripcionIntervencion}"/>
+                        <p:outputLabel value="Estado"/>
+                        <p:toggleSwitch  id="tslEstado" value="#{registroEmergenciaMB.emerIntervencion.estado}"/>
+                        <p:outputLabel value="Intervencion psicologica"/>
+                        <p:toggleSwitch  id="tslPsico" value="#{registroEmergenciaMB.emerIntervencion.psicologia}"/>
+                        <p:outputLabel value="Intervencion pedadogica"/>
+                        <p:toggleSwitch  id="tslPeda" value="#{registroEmergenciaMB.emerIntervencion.pedadogica}"/>
+                        <p:outputLabel value="Intervencion Reconstrucción"/>
+                        <p:toggleSwitch  id="tslReco" value="#{registroEmergenciaMB.emerIntervencion.reconstruccion}"/>
+                        <p:outputLabel value="Observacion"/>
+                        <p:inputTextarea value="#{registroEmergenciaMB.emerIntervencion.observacion}"/>
+                    </h:panelGrid>
+                </p:tab>
+                <p:tab title="Servicios basicos">
+                </p:tab>
+                <p:tab title="Capacidad del albergue">
+                </p:tab>
+            </p:tabView>
+
 
 
             <p:dialog id="dlgEmergencia" widgetVar="dlgEmergencia" header="Emergencias registradas" modal="true"
@@ -42,7 +143,7 @@
                              selection="#{registroEmergenciaMB.emergenciaSeleccionada}"
                              rowKey="#{tipo.codigoEmergencia}">
 
-                    <p:ajax event="rowSelect" onsuccess="PF('dlgEmergencia').hide()" update="txtEmergencia"/>
+                    <p:ajax event="rowSelect" onsuccess="PF('dlgEmergencia').hide()" update="tbView:txtEmergencia"/>
 
                     <p:column headerText="ID" width="20" style="text-align: center;">
                         #{tipo.codigoEmergencia}
